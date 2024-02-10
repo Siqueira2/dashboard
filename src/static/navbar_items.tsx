@@ -1,4 +1,4 @@
-import { LayoutDashboard, UserRound } from "lucide-react";
+import { Layers, UserRound } from "lucide-react";
 
 import { INavbarItems } from "@/interface/navbar_items";
 
@@ -6,9 +6,8 @@ export const navbar_items: INavbarItems[] = [
   {
     id: 1,
     path: "/",
-    icon: LayoutDashboard,
+    icon: Layers,
     text: "Dashboard",
-    filled: true,
   },
 
   {

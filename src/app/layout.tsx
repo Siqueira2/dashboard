@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import Theme from "@/context/theme-context";
+
 import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
@@ -14,11 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-slate-200 text-slate-900">
-        <Navbar />
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className="bg-gray-200 text-gray-900 dark:bg-gray-950 dark:text-gray-50"
+        suppressHydrationWarning
+      >
+        <Theme>
+          <Navbar />
 
-        {children}
+          <main className="px-5 ml-16">{children}</main>
+        </Theme>
       </body>
     </html>
   );
