@@ -1,4 +1,4 @@
-import { INavbarItems } from "@/interface/navbar_items";
+import { INavbarItems } from "@/interface/navbarItems";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";

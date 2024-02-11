@@ -1,8 +1,18 @@
+import { SectionHeader } from "@/components/sectionHeader";
+import { SearchForm } from "@/components/searchForm";
+import { CreateBoard } from "@/components/kanban/createBoard";
+
 const Kanban = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      Kanban
-    </div>
+    <section className="space-y-4">
+      <div className="flex justify-between items-end">
+        <SectionHeader header="Kanban" description="app" />
+
+        <SearchForm />
+      </div>
+
+      <CreateBoard />
+    </section>
   );
 };
 

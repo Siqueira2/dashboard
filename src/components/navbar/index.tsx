@@ -1,7 +1,7 @@
 "use client";
 
-import { NavbarItems } from "@/components/navbar/navbar-items";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { NavbarItems } from "@/components/navbar/navbarItems";
+import { ThemeToggle } from "@/components/themeToggle";
 
 import { navbar_items } from "@/static/navbar_items";
 

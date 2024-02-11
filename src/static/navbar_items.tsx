@@ -1,6 +1,6 @@
 import { Layers, UserRound, KanbanSquare } from "lucide-react";
 
-import { INavbarItems } from "@/interface/navbar_items";
+import { INavbarItems } from "@/interface/navbarItems";
 
 export const navbar_items: INavbarItems[] = [
   {
