@@ -21,6 +21,7 @@ import {
 export const CreateBoard = () => {
   const { boards, createNewBoard } = useBoards();
   const [title, setTitle] = useState<string>("New Board");
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -31,13 +32,15 @@ export const CreateBoard = () => {
     }
 
     createNewBoard({ title });
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2" variant="outline">
           <Plus size={20} />
+
           <p>Add new board</p>
         </Button>
       </DialogTrigger>
@@ -59,9 +62,7 @@ export const CreateBoard = () => {
         />
 
         <DialogFooter>
-          <DialogClose asChild>
-            <Button onClick={handleClick}>Create board</Button>
-          </DialogClose>
+          <Button onClick={handleClick}>Create board</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
