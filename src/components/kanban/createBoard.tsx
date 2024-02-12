@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Plus } from "lucide-react";
+
+import useBoards from "@/hooks/useBoards";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,9 +15,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 
 export const CreateBoard = () => {
+  const { boards, createNewBoard } = useBoards();
+  const [title, setTitle] = useState<string>("New Board");
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!title) {
+      console.log("Preenche essa porra");
+      return;
+    }
+
+    createNewBoard({ title });
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -31,10 +49,19 @@ export const CreateBoard = () => {
           <DialogDescription>Add new board in your kanban.</DialogDescription>
         </DialogHeader>
 
-        <Input id="name" defaultValue="Pedro Duarte" />
+        <Input
+          id="name"
+          value={title}
+          placeholder="Insert name of the board"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTitle(e.target.value)
+          }
+        />
 
         <DialogFooter>
-          <Button type="submit">Create board</Button>
+          <DialogClose asChild>
+            <Button onClick={handleClick}>Create board</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
