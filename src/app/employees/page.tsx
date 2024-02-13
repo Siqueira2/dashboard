@@ -1,9 +1,5 @@
 const Employees = () => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      Employees
-    </div>
-  );
+  return <section>Employees</section>;
 };
 
 export default Employees;
