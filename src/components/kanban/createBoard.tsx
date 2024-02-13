@@ -22,7 +22,7 @@ export const CreateBoard = () => {
   const [title, setTitle] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title) {
@@ -52,18 +52,18 @@ export const CreateBoard = () => {
           <DialogDescription>Add new board in your kanban.</DialogDescription>
         </DialogHeader>
 
-        <Input
-          id="name"
-          value={title}
-          placeholder="Insert name of the board"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
-          }
-        />
+        <form onSubmit={handleClick} className="flex flex-col gap-4">
+          <Input
+            id="name"
+            value={title}
+            placeholder="Insert name of the board"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+          />
 
-        <DialogFooter>
-          <Button onClick={handleClick}>Create board</Button>
-        </DialogFooter>
+          <Button className="max-w-fit self-end">Create board</Button>
+        </form>
       </DialogContent>
     </Dialog>
   );
