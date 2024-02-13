@@ -11,7 +11,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,7 +21,7 @@ export const CreateBoard = () => {
   const [title, setTitle] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleClick = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title) {
@@ -52,7 +51,7 @@ export const CreateBoard = () => {
           <DialogDescription>Add new board in your kanban.</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleClick} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
             id="name"
             value={title}
@@ -62,7 +61,9 @@ export const CreateBoard = () => {
             }
           />
 
-          <Button className="max-w-fit self-end">Create board</Button>
+          <Button type="submit" className="max-w-fit self-end">
+            Create board
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

@@ -3,8 +3,6 @@
 import * as React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 
-import { Sun, MoonStar } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
 const Switch = React.forwardRef<
@@ -23,9 +21,7 @@ const Switch = React.forwardRef<
       className={cn(
         "pointer-events-none h-7 w-7 p-0.5 rounded-full bg-background shadow-lg ring-0 transition-transform flex justify-center items-center"
       )}
-    >
-      {checked ? <Sun className="text-amber-500" /> : <MoonStar />}
-    </SwitchPrimitives.Thumb>
+    />
   </SwitchPrimitives.Root>
 ));
 Switch.displayName = SwitchPrimitives.Root.displayName;
