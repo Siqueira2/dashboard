@@ -9,6 +9,7 @@ import { IBoard } from "@/interface/board";
 type GlobalContextState = {
   boards: IBoard[];
   createNewBoard: (board: Omit<IBoard, "id">) => void;
+  removeBoard: (board: Omit<IBoard, "title">) => void;
 };
 
 type GlobalProviderProps = {
@@ -31,11 +32,16 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     setBoards((state) => [...state, newBoard]);
   }, []);
 
+  const removeBoard = useCallback(({ id }: Omit<IBoard, "title">): void => {
+    setBoards((state) => state.filter((board) => board.id !== id));
+  }, []);
+
   return (
     <GlobalContext.Provider
       value={{
         boards,
         createNewBoard,
+        removeBoard,
       }}
     >
       {children}

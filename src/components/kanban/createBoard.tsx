@@ -15,12 +15,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 
 export const CreateBoard = () => {
-  const { boards, createNewBoard } = useBoards();
-  const [title, setTitle] = useState<string>("New Board");
+  const { createNewBoard } = useBoards();
+  const [title, setTitle] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,6 +31,7 @@ export const CreateBoard = () => {
     }
 
     createNewBoard({ title });
+    setTitle("");
     setOpen(false);
   };
 

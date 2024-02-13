@@ -9,9 +9,15 @@ const useBoards = () => {
     (global) => global.createNewBoard
   );
 
+  const removeBoard = useContextSelector(
+    GlobalContext,
+    (global) => global.removeBoard
+  );
+
   return {
     boards,
     createNewBoard,
+    removeBoard,
   };
 };
 
