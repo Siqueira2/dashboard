@@ -37,8 +37,14 @@ export const EditBoard = ({ board }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="primary_ghost" size="sm" className="px-2">
+        <Button
+          variant="primary_ghost"
+          size="sm"
+          className="p-2 space-x-2 w-full h-full flex justify-start"
+        >
           <Edit size={15} />
+
+          <p>Edit</p>
         </Button>
       </DialogTrigger>
 
