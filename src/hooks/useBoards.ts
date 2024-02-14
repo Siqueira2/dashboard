@@ -2,21 +2,21 @@ import { useContextSelector } from "use-context-selector";
 import { GlobalContext } from "@/context/globalContext";
 
 const useBoards = () => {
-  const boards = useContextSelector(GlobalContext, (global) => global.boards);
+  const boards = useContextSelector(GlobalContext, (state) => state.boards);
 
   const createNewBoard = useContextSelector(
     GlobalContext,
-    (global) => global.createNewBoard
+    (state) => state.createNewBoard
   );
 
   const removeBoard = useContextSelector(
     GlobalContext,
-    (global) => global.removeBoard
+    (state) => state.removeBoard
   );
 
   const editBoard = useContextSelector(
     GlobalContext,
-    (global) => global.editBoard
+    (state) => state.editBoard
   );
 
   return {
