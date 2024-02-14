@@ -14,10 +14,16 @@ const useBoards = () => {
     (global) => global.removeBoard
   );
 
+  const editBoard = useContextSelector(
+    GlobalContext,
+    (global) => global.editBoard
+  );
+
   return {
     boards,
     createNewBoard,
     removeBoard,
+    editBoard,
   };
 };
 

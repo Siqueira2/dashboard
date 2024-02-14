@@ -7,6 +7,8 @@ import useBoards from "@/hooks/useBoards";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+import { EditBoard } from "@/components/kanban/editBoard";
+
 export const BoardContainer = () => {
   const { boards, removeBoard } = useBoards();
 
@@ -18,9 +20,7 @@ export const BoardContainer = () => {
             <h2 className="text-base font-semibold">{board.title}</h2>
 
             <span>
-              <Button variant="primary_ghost" size="sm" className="px-2">
-                <Edit size={15} />
-              </Button>
+              <EditBoard board={board} />
 
               <Button
                 variant="destructive_ghost"

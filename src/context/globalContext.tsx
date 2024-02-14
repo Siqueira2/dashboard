@@ -10,6 +10,7 @@ type GlobalContextState = {
   boards: IBoard[];
   createNewBoard: (board: Omit<IBoard, "id">) => void;
   removeBoard: (board: Omit<IBoard, "title">) => void;
+  editBoard: (board: IBoard) => void;
 };
 
 type GlobalProviderProps = {
@@ -36,12 +37,23 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
     setBoards((state) => state.filter((board) => board.id !== id));
   }, []);
 
+  const editBoard = useCallback(({ id, title }: IBoard): void => {
+    setBoards((state) => {
+      const updateBoards = state.map((board) =>
+        board.id === id ? { ...board, title } : board
+      );
+
+      return updateBoards;
+    });
+  }, []);
+
   return (
     <GlobalContext.Provider
       value={{
         boards,
         createNewBoard,
         removeBoard,
+        editBoard,
       }}
     >
       {children}
