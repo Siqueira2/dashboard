@@ -30,11 +30,15 @@ export const DropdownBoard = ({ board }: Props) => {
 
       <DropdownMenuContent>
         <DropdownMenuItem asChild>
-          <EditBoard board={board} />
+          <>
+            <EditBoard board={board} />
+          </>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <DeleteBoard board={board} />
+          <>
+            <DeleteBoard board={board} />
+          </>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
