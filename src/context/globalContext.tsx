@@ -2,22 +2,27 @@
 
 import { createContext } from "use-context-selector";
 
-import { BoardSlice } from "@/slices/boards";
+import { BoardsSlice } from "@/slices/boardsSlice";
+import { CardsSlice } from "@/slices/cardsSlice";
 
 type GlobalProviderProps = {
   children: React.ReactNode;
-  boardSlice: ReturnType<typeof BoardSlice>;
 };
 
-export const GlobalContext = createContext({} as ReturnType<typeof BoardSlice>);
+type GlobalState = ReturnType<typeof BoardsSlice> &
+  ReturnType<typeof CardsSlice>;
+
+export const GlobalContext = createContext({} as GlobalState);
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
-  const boardSlice = BoardSlice();
+  const boardSlice = BoardsSlice();
+  const cardsSlice = CardsSlice();
 
   return (
     <GlobalContext.Provider
       value={{
         ...boardSlice,
+        ...cardsSlice,
       }}
     >
       {children}

@@ -1,8 +1,9 @@
 "use client";
 
 import { IBoard } from "@/interface/board";
+import { ICard } from "@/interface/card";
 
-import { useState, useId, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 
 type BoardState = {
@@ -12,7 +13,7 @@ type BoardState = {
   editBoard: (board: IBoard) => void;
 };
 
-export const BoardSlice = (): BoardState => {
+export const BoardsSlice = (): BoardState => {
   const [boards, setBoards] = useState<IBoard[]>([]);
 
   const createNewBoard = useCallback(({ title }: Omit<IBoard, "id">): void => {
@@ -39,6 +40,11 @@ export const BoardSlice = (): BoardState => {
       return updateBoards;
     });
   }, []);
+
+  const addCard = useCallback(
+    (card: ICard, { id }: Omit<IBoard, "title">) => {},
+    []
+  );
 
   return {
     boards,
