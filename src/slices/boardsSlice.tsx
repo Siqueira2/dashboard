@@ -11,6 +11,7 @@ type BoardState = {
   createNewBoard: (board: Omit<IBoard, "id">) => void;
   removeBoard: (board: Omit<IBoard, "title">) => void;
   editBoard: (board: IBoard) => void;
+  addCard: (card: ICard, { id }: Omit<IBoard, "title">) => void;
 };
 
 export const BoardsSlice = (): BoardState => {
@@ -41,15 +42,21 @@ export const BoardsSlice = (): BoardState => {
     });
   }, []);
 
-  const addCard = useCallback(
-    (card: ICard, { id }: Omit<IBoard, "title">) => {},
-    []
-  );
+  const addCard = useCallback((card: ICard, { id }: Omit<IBoard, "title">) => {
+    setBoards((state) => {
+      const addCard = state.map((board) =>
+        board.id === id ? { ...board, card } : board
+      );
+
+      return addCard;
+    });
+  }, []);
 
   return {
     boards,
     createNewBoard,
     removeBoard,
     editBoard,
+    addCard,
   };
 };

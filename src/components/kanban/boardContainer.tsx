@@ -18,6 +18,9 @@ export const BoardContainer = () => {
 
             <DropdownBoard board={board} />
           </div>
+
+          {board.cards?.length &&
+            board.cards.map((card) => <div key={card.id}>{card.title}</div>)}
         </Card>
       ))}
     </>
