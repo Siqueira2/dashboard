@@ -39,7 +39,9 @@ export const BoardContainer = () => {
 
           <ul className="space-y-2">
             {board.cards &&
-              board.cards.map((card) => <ItemCard card={card} key={card.id} />)}
+              board.cards
+                .map((card) => <ItemCard card={card} key={card.id} />)
+                .reverse()}
           </ul>
         </Card>
       ))}
