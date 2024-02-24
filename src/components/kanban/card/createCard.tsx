@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 type Props = {
   board_id: string | number;
   action_callback: CallableFunction;
+  className?: string;
 };
-export const CreateCard = ({ board_id, action_callback }: Props) => {
+
+export const CreateCard = ({ board_id, action_callback, className }: Props) => {
   const { createNewCard } = useCards();
   const { addCard } = useBoards();
   const [title, setTitle] = useState<string>("");
@@ -28,7 +30,7 @@ export const CreateCard = ({ board_id, action_callback }: Props) => {
     action_callback();
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={className}>
       <Input
         placeholder="Create new card"
         value={title}
