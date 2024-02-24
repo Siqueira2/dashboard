@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { GalleryHorizontalEnd, MoreVertical } from "lucide-react";
 
 import { IBoard } from "@/interface/board";
@@ -21,8 +23,10 @@ type Props = {
 };
 
 export const DropdownBoard = ({ board, action_callback }: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="primary_ghost" size="sm" className="px-1">
           <MoreVertical size={16} />
@@ -32,7 +36,7 @@ export const DropdownBoard = ({ board, action_callback }: Props) => {
       <DropdownMenuContent>
         <DropdownMenuItem asChild>
           <>
-            <EditBoard board={board} />
+            <EditBoard board={board} action_callback={() => setOpen(false)} />
           </>
         </DropdownMenuItem>
 
@@ -48,7 +52,10 @@ export const DropdownBoard = ({ board, action_callback }: Props) => {
               variant="primary_ghost"
               size="sm"
               className="p-2 space-x-2 w-full h-full flex justify-start cursor-pointer"
-              onClick={() => action_callback()}
+              onClick={() => {
+                setOpen(false);
+                action_callback();
+              }}
             >
               <GalleryHorizontalEnd size={15} />
 

@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { ChangeEvent, RefObject, useState } from "react";
 
 import useCards from "@/hooks/useCards";
+import useBoards from "@/hooks/useBoards";
 
 import { Input } from "@/components/ui/input";
 
-export const CreateCard = () => {
+type Props = {
+  board_id: string | number;
+  action_callback: CallableFunction;
+};
+export const CreateCard = ({ board_id, action_callback }: Props) => {
   const { createNewCard } = useCards();
+  const { addCard } = useBoards();
   const [title, setTitle] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -16,12 +22,20 @@ export const CreateCard = () => {
       return;
     }
 
-    createNewCard({ title });
+    const card = createNewCard({ title });
+    addCard(card, board_id);
     setTitle("");
+    action_callback();
   };
   return (
     <form onSubmit={handleSubmit}>
-      <Input placeholder="Create new card" />
+      <Input
+        placeholder="Create new card"
+        value={title}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setTitle(e.target.value)
+        }
+      />
     </form>
   );
 };

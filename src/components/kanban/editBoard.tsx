@@ -20,9 +20,10 @@ import {
 
 type Props = {
   board: IBoard;
+  action_callback: CallableFunction;
 };
 
-export const EditBoard = ({ board }: Props) => {
+export const EditBoard = ({ board, action_callback }: Props) => {
   const { editBoard } = useBoards();
   const [title, setTitle] = useState<string>(board.title);
   const [open, setOpen] = useState<boolean>(false);
@@ -32,6 +33,7 @@ export const EditBoard = ({ board }: Props) => {
     editBoard({ ...board, title });
     setTitle("");
     setOpen(false);
+    action_callback();
   };
 
   return (

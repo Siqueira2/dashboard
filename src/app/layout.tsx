@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { StrictMode } from "react";
+
 import "./globals.css";
 
 import Theme from "@/context/themeContext";

@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 
 type CardState = {
   cards: ICard[];
-  createNewCard: (Card: Omit<ICard, "id">) => void;
+  createNewCard: (Card: Omit<ICard, "id">) => ICard;
   removeCard: (Card: Omit<ICard, "title">) => void;
   editCard: (Card: ICard) => void;
 };
@@ -15,15 +15,16 @@ type CardState = {
 export const CardsSlice = (): CardState => {
   const [cards, setCards] = useState<ICard[]>([]);
 
-  const createNewCard = useCallback(({ title }: Omit<ICard, "id">): void => {
+  const createNewCard = useCallback(({ title }: Omit<ICard, "id">): ICard => {
     const id = uuid();
 
-    const newCard = {
+    const card = {
       id,
       title,
     };
 
-    setCards((state) => [...state, newCard]);
+    setCards((state) => [...state, card]);
+    return card;
   }, []);
 
   const removeCard = useCallback(({ id }: Omit<ICard, "title">): void => {

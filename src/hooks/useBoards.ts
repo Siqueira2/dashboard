@@ -19,11 +19,14 @@ const useBoards = () => {
     (state) => state.editBoard
   );
 
+  const addCard = useContextSelector(GlobalContext, (state) => state.addCard);
+
   return {
     boards,
     createNewBoard,
     removeBoard,
     editBoard,
+    addCard,
   };
 };
 
