@@ -14,8 +14,8 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-import { EditBoard } from "@/components/kanban/editBoard";
-import { DeleteBoard } from "@/components/kanban/deleteBoard";
+import { EditBoard } from "@/components/kanban/board/editBoard";
+import { DeleteBoard } from "@/components/kanban/board/deleteBoard";
 
 type Props = {
   board: IBoard;

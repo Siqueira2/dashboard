@@ -4,13 +4,13 @@ import { useState, useRef, RefObject } from "react";
 
 import useBoards from "@/hooks/useBoards";
 
-import { DropdownBoard } from "@/components/kanban/dropdownBoard";
+import { DropdownBoard } from "@/components/kanban/board/dropdownBoard";
 import { CreateCard } from "@/components/kanban/card/createCard";
 import { ItemCard } from "@/components/kanban/card/itemCard";
 
 import { Card } from "@/components/ui/card";
 
-export const BoardContainer = () => {
+export const KanbanBoards = () => {
   const [selectedBoard, setSelectedBoard] = useState<number | string | null>(
     null
   );
