@@ -25,13 +25,7 @@ export const ThemeToggle = () => {
       />
 
       <Label htmlFor="theme-switch" className="cursor-pointer absolute">
-        <>
-          {theme === "light" ? (
-            <Sun className="text-amber-500" />
-          ) : (
-            <MoonStar />
-          )}
-        </>
+        <>{theme === "light" ? <Sun color="#f59e0b" /> : <MoonStar />}</>
       </Label>
     </div>
   );
