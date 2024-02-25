@@ -1,50 +1,76 @@
 "use client";
 
-import { useState, useRef, RefObject } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
 import useBoards from "@/hooks/useBoards";
 
-import { DropdownBoard } from "@/components/kanban/board/dropdownBoard";
-import { CreateCard } from "@/components/kanban/card/createCard";
-import { ItemCard } from "@/components/kanban/card/itemCard";
-
-import { Card } from "@/components/ui/card";
+import { BoardContainer } from "@/components/kanban/board/boardContainer";
+import { IBoard } from "@/interface/board";
 
 export const KanbanBoards = () => {
-  const [selectedBoard, setSelectedBoard] = useState<number | string | null>(
-    null
+  const { boards: user_boards, setBoards } = useBoards();
+  const boardsId = useMemo(
+    () => user_boards.map((board) => board.id),
+    [user_boards]
   );
-  const { boards } = useBoards();
+
+  const onDragStart = (e: DragStartEvent) => {
+    if (e.active.data.current?.type === "Board") {
+      setActiveBoard(e.active.data.current.board);
+      return;
+    }
+  };
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+
+    if (!over) return;
+
+    const activeBoardId = active.id;
+    const overBoarId = over.id;
+
+    if (activeBoardId === overBoarId) return;
+
+    setBoards((boards) => {
+      const activeBoardIndex = boards.findIndex(
+        (board) => board.id === activeBoardId
+      );
+
+      const overBoardIndex = boards.findIndex(
+        (board) => board.id === overBoarId
+      );
+
+      return arrayMove(boards, activeBoardIndex, overBoardIndex);
+    });
+  };
+
+  const [activeBoard, setActiveBoard] = useState<IBoard | null>(null);
 
   return (
-    <>
-      {boards.map((board) => (
-        <Card key={board.id} className="min-w-[250px] w-[250px] p-2 h-fit">
-          <div className="flex justify-between items-center">
-            <h2 className="text-base font-semibold truncate">{board.title}</h2>
+    <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      <div className="flex gap-2 overflow-x-auto">
+        <SortableContext items={boardsId}>
+          {user_boards.map((board) => (
+            <BoardContainer board={board} key={board.id} />
+          ))}
+        </SortableContext>
+      </div>
 
-            <DropdownBoard
-              board={board}
-              action_callback={() => setSelectedBoard(board.id)}
-            />
-          </div>
-
-          {selectedBoard === board.id && (
-            <CreateCard
-              className="mb-2"
-              action_callback={() => setSelectedBoard(null)}
-              board_id={board.id}
-            />
-          )}
-
-          <ul className="space-y-2">
-            {board.cards &&
-              board.cards
-                .map((card) => <ItemCard card={card} key={card.id} />)
-                .reverse()}
-          </ul>
-        </Card>
-      ))}
-    </>
+      {typeof window !== "undefined" &&
+        createPortal(
+          <DragOverlay>
+            {activeBoard && <BoardContainer board={activeBoard} />}
+          </DragOverlay>,
+          document.body
+        )}
+    </DndContext>
   );
 };

@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 
 type BoardState = {
   boards: IBoard[];
+  setBoards: React.Dispatch<React.SetStateAction<IBoard[]>>;
   createNewBoard: (board: Omit<IBoard, "id">) => void;
   removeBoard: (board: Omit<IBoard, "title">) => void;
   editBoard: (board: IBoard) => void;
@@ -56,6 +57,7 @@ export const BoardsSlice = (): BoardState => {
 
   return {
     boards,
+    setBoards,
     createNewBoard,
     removeBoard,
     editBoard,

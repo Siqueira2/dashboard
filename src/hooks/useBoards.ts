@@ -4,6 +4,11 @@ import { GlobalContext } from "@/context/globalContext";
 const useBoards = () => {
   const boards = useContextSelector(GlobalContext, (state) => state.boards);
 
+  const setBoards = useContextSelector(
+    GlobalContext,
+    (state) => state.setBoards
+  );
+
   const createNewBoard = useContextSelector(
     GlobalContext,
     (state) => state.createNewBoard
@@ -23,6 +28,7 @@ const useBoards = () => {
 
   return {
     boards,
+    setBoards,
     createNewBoard,
     removeBoard,
     editBoard,
