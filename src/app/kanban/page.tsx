@@ -11,7 +11,7 @@ const Kanban = () => {
         <SectionHeader header="Kanban" description="app" />
       </div>
 
-      <div className="flex gap-2 h-full">
+      <div className="flex gap-2 h-fit">
         <KanbanBoards />
 
         <CreateBoard />

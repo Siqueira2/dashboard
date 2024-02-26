@@ -10,10 +10,11 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
+import { IBoard } from "@/interface/board";
+
 import useBoards from "@/hooks/useBoards";
 
 import { BoardContainer } from "@/components/kanban/board/boardContainer";
-import { IBoard } from "@/interface/board";
 
 export const KanbanBoards = () => {
   const { boards: user_boards, setBoards } = useBoards();
@@ -56,7 +57,7 @@ export const KanbanBoards = () => {
 
   return (
     <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-      <div className="flex gap-2 overflow-x-auto">
+      <div className="flex gap-2 w-full overflow-auto">
         <SortableContext items={boardsId}>
           {user_boards.map((board) => (
             <BoardContainer board={board} key={board.id} />

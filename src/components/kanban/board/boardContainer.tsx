@@ -44,7 +44,7 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="min-w-[250px] w-[250px] p-2 h-[55px] opacity-30"
+        className="min-w-[250px] w-[250px] p-2 max-h-[55px] opacity-30"
       ></Card>
     );
   }
@@ -54,11 +54,11 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
       ref={setNodeRef}
       style={style}
       key={board.id}
-      className="min-w-[250px] w-[250px] p-2 h-fit"
+      className="min-w-[250px] w-[250px] p-2"
     >
       <div className="flex justify-between items-center">
         <h2
-          className="text-base font-semibold truncate"
+          className="text-base font-semibold truncate w-full"
           {...attributes}
           {...listeners}
         >
