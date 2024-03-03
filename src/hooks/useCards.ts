@@ -3,6 +3,7 @@ import { GlobalContext } from "@/context/globalContext";
 
 const useCards = () => {
   const cards = useContextSelector(GlobalContext, (state) => state.cards);
+  const setCards = useContextSelector(GlobalContext, (state) => state.setCards);
 
   const createNewCard = useContextSelector(
     GlobalContext,
@@ -18,6 +19,7 @@ const useCards = () => {
 
   return {
     cards,
+    setCards,
     createNewCard,
     removeCard,
     editCard,

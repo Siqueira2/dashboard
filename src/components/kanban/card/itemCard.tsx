@@ -1,4 +1,5 @@
-import React from "react";
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
 
 import { ICard } from "@/interface/card";
 
@@ -15,10 +16,45 @@ type ItemCardProps = {
 };
 
 export const ItemCard = ({ card }: ItemCardProps) => {
+  const {
+    setNodeRef,
+    attributes,
+    transition,
+    listeners,
+    transform,
+    isDragging,
+  } = useSortable({
+    id: card.id,
+    data: {
+      type: "Card",
+      card,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+  if (isDragging) {
+    return (
+      <li ref={setNodeRef} style={style}>
+        <Card className=" min-h-[38px] p-2 opacity-30" />
+      </li>
+    );
+  }
+
   return (
-    <li>
+    <li
+      key={card.id}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="list-none"
+    >
       <Collapsible>
-        <Card className="py-2 px-1 max-w-full overflow-hidden space-y-1.5">
+        <Card className="py-2 px-1 max-w-full min-h-fit overflow-hidden space-y-1.5">
           <CollapsibleTrigger asChild>
             <h4 className="font-medium text-sm truncate w-full">
               {card.title}

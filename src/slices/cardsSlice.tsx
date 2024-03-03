@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid";
 
 type CardState = {
   cards: ICard[];
+  setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
   createNewCard: (Card: Omit<ICard, "id">) => ICard;
   removeCard: (Card: Omit<ICard, "title">) => void;
   editCard: (Card: ICard) => void;
@@ -43,6 +44,7 @@ export const CardsSlice = (): CardState => {
 
   return {
     cards,
+    setCards,
     createNewCard,
     removeCard,
     editCard,

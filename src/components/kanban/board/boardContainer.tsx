@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
-import { useSortable } from "@dnd-kit/sortable";
+import { useSortable, SortableContext } from "@dnd-kit/sortable";
 
 import { IBoard } from "@/interface/board";
 
@@ -18,6 +18,10 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
   const [selectedBoard, setSelectedBoard] = useState<number | string | null>(
     null
   );
+  const cardsId = useMemo(() => {
+    if (!board.cards) return [];
+    return board.cards.map((card) => card.id);
+  }, [board.cards]);
 
   const {
     setNodeRef,
@@ -44,8 +48,8 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
       <Card
         ref={setNodeRef}
         style={style}
-        className="min-w-[250px] w-[250px] p-2 max-h-[55px] opacity-30"
-      ></Card>
+        className="min-w-[250px] w-[250px] p-2 min-h-fit opacity-30"
+      />
     );
   }
 
@@ -54,7 +58,7 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
       ref={setNodeRef}
       style={style}
       key={board.id}
-      className="min-w-[250px] w-[250px] p-2"
+      className="min-w-[250px] w-[250px] h-fit p-2"
     >
       <div className="flex justify-between items-center">
         <h2
@@ -80,10 +84,12 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
       )}
 
       <ul className="space-y-2">
-        {board.cards &&
-          board.cards
-            .map((card) => <ItemCard card={card} key={card.id} />)
-            .reverse()}
+        <SortableContext items={cardsId}>
+          {board.cards &&
+            board.cards
+              .map((card) => <ItemCard card={card} key={card.id} />)
+              .reverse()}
+        </SortableContext>
       </ul>
     </Card>
   );
