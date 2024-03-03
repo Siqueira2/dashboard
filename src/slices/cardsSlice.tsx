@@ -1,9 +1,10 @@
 "use client";
+import { useState, useCallback } from "react";
+import { v4 as uuid } from "uuid";
 
 import { ICard } from "@/interface/card";
 
-import { useState, useCallback } from "react";
-import { v4 as uuid } from "uuid";
+import useBoards from "@/hooks/useBoards";
 
 type CardState = {
   cards: ICard[];
@@ -16,17 +17,24 @@ type CardState = {
 export const CardsSlice = (): CardState => {
   const [cards, setCards] = useState<ICard[]>([]);
 
-  const createNewCard = useCallback(({ title }: Omit<ICard, "id">): ICard => {
-    const id = uuid();
+  const { addCard } = useBoards();
 
-    const card = {
-      id,
-      title,
-    };
+  const createNewCard = useCallback(
+    ({ title, board_id }: Omit<ICard, "id">): ICard => {
+      const id = uuid();
 
-    setCards((state) => [...state, card]);
-    return card;
-  }, []);
+      const card = {
+        id,
+        title,
+        board_id,
+      };
+
+      addCard(card, board_id);
+      setCards((state) => [...state, card]);
+      return card;
+    },
+    [addCard]
+  );
 
   const removeCard = useCallback(({ id }: Omit<ICard, "title">): void => {
     setCards((state) => state.filter((card) => card.id !== id));

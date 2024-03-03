@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import useCards from "@/hooks/useCards";
 import useBoards from "@/hooks/useBoards";
@@ -13,7 +13,6 @@ type Props = {
 
 export const CreateCard = ({ board_id, action_callback, className }: Props) => {
   const { createNewCard } = useCards();
-  const { addCard } = useBoards();
   const [title, setTitle] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,8 +23,7 @@ export const CreateCard = ({ board_id, action_callback, className }: Props) => {
       return;
     }
 
-    const card = createNewCard({ title });
-    addCard(card, board_id);
+    createNewCard({ title, board_id });
     setTitle("");
     action_callback();
   };
