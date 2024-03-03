@@ -14,7 +14,6 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { IBoard } from "@/interface/board";
 
 import useBoards from "@/hooks/useBoards";
-import useCards from "@/hooks/useCards";
 
 import { BoardContainer } from "@/components/kanban/board/boardContainer";
 import { ICard } from "@/interface/card";
@@ -22,9 +21,9 @@ import { ItemCard } from "./card/itemCard";
 
 export const KanbanBoards = () => {
   const { boards: user_boards, setBoards } = useBoards();
-  const { cards: user_cards, setCards } = useCards();
   const [activeBoard, setActiveBoard] = useState<IBoard | null>(null);
   const [activeCard, setActiveCard] = useState<ICard | null>(null);
+  const [cards, setCards] = useState<ICard[]>([]);
 
   const boardsId = useMemo(
     () => user_boards.map((board) => board.id),
@@ -102,7 +101,12 @@ export const KanbanBoards = () => {
       <div className="flex gap-2 w-full overflow-auto">
         <SortableContext items={boardsId}>
           {user_boards.map((board) => (
-            <BoardContainer board={board} key={board.id} />
+            <BoardContainer
+              board={board}
+              key={board.id}
+              cards={cards}
+              setCards={setCards}
+            />
           ))}
         </SortableContext>
       </div>
@@ -110,7 +114,13 @@ export const KanbanBoards = () => {
       {typeof window !== "undefined" &&
         createPortal(
           <DragOverlay>
-            {activeBoard && <BoardContainer board={activeBoard} />}
+            {activeBoard && (
+              <BoardContainer
+                board={activeBoard}
+                cards={cards}
+                setCards={setCards}
+              />
+            )}
             {activeCard && <ItemCard card={activeCard} />}
           </DragOverlay>,
           document.body

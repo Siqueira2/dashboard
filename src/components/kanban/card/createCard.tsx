@@ -13,6 +13,7 @@ type Props = {
 
 export const CreateCard = ({ board_id, action_callback, className }: Props) => {
   const { createNewCard } = useCards();
+  const { addCard } = useBoards();
   const [title, setTitle] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,7 +24,8 @@ export const CreateCard = ({ board_id, action_callback, className }: Props) => {
       return;
     }
 
-    createNewCard({ title, board_id });
+    const card = createNewCard({ title, board_id });
+    addCard(card, board_id);
     setTitle("");
     action_callback();
   };

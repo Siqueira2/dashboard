@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable, SortableContext } from "@dnd-kit/sortable";
 
 import { IBoard } from "@/interface/board";
+import { ICard } from "@/interface/card";
 
 import { DropdownBoard } from "@/components/kanban/board/dropdownBoard";
 import { CreateCard } from "@/components/kanban/card/createCard";
@@ -12,16 +13,26 @@ import { Card } from "@/components/ui/card";
 
 type BoardContainerProps = {
   board: IBoard;
+  cards: ICard[];
+  setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
 };
 
-export const BoardContainer = ({ board }: BoardContainerProps) => {
+export const BoardContainer = ({
+  board,
+  cards,
+  setCards,
+}: BoardContainerProps) => {
   const [selectedBoard, setSelectedBoard] = useState<number | string | null>(
     null
   );
-  const cardsId = useMemo(() => {
-    if (!board.cards) return [];
-    return board.cards.map((card) => card.id);
-  }, [board.cards]);
+  const cardsId = useMemo(
+    () => (cards && cards.length ? cards.map((card) => card.id) : []),
+    [cards]
+  );
+
+  useEffect(() => {
+    setCards([...board.cards]);
+  }, [board.cards, setCards]);
 
   const {
     setNodeRef,
@@ -85,8 +96,8 @@ export const BoardContainer = ({ board }: BoardContainerProps) => {
 
       <ul className="space-y-2">
         <SortableContext items={cardsId}>
-          {board.cards &&
-            board.cards
+          {cards &&
+            cards
               .map((card) => <ItemCard card={card} key={card.id} />)
               .reverse()}
         </SortableContext>

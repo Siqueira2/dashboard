@@ -29,11 +29,10 @@ export const CardsSlice = (): CardState => {
         board_id,
       };
 
-      addCard(card, board_id);
       setCards((state) => [...state, card]);
       return card;
     },
-    [addCard]
+    []
   );
 
   const removeCard = useCallback(({ id }: Omit<ICard, "title">): void => {

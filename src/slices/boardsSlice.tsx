@@ -24,6 +24,7 @@ export const BoardsSlice = (): BoardState => {
     const newBoard = {
       id,
       title,
+      cards: [],
     };
 
     setBoards((state) => [...state, newBoard]);
