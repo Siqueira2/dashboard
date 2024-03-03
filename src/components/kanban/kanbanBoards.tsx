@@ -50,19 +50,20 @@ export const KanbanBoards = () => {
     const { active, over } = e;
     if (!over) return;
 
-    const activeBoardId = active.id;
-    const overBoarId = over.id;
+    const activeId = active.id;
+    const overId = over.id;
 
-    if (activeBoardId === overBoarId) return;
+    if (activeId === overId) return;
+
+    const isActiveABoard = active.data.current?.type === "Board";
+    if (!isActiveABoard) return;
 
     setBoards((boards) => {
       const activeBoardIndex = boards.findIndex(
-        (board) => board.id === activeBoardId
+        (board) => board.id === activeId
       );
 
-      const overBoardIndex = boards.findIndex(
-        (board) => board.id === overBoarId
-      );
+      const overBoardIndex = boards.findIndex((board) => board.id === overId);
 
       return arrayMove(boards, activeBoardIndex, overBoardIndex);
     });

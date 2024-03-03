@@ -46,7 +46,6 @@ export const ItemCard = ({ card }: ItemCardProps) => {
 
   return (
     <li
-      key={card.id}
       ref={setNodeRef}
       style={style}
       {...attributes}
