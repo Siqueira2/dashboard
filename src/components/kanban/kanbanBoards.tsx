@@ -20,10 +20,9 @@ import { ICard } from "@/interface/card";
 import { ItemCard } from "./card/itemCard";
 
 export const KanbanBoards = () => {
-  const { boards: user_boards, setBoards } = useBoards();
+  const { boards: user_boards, setBoards, updateCards } = useBoards();
   const [activeBoard, setActiveBoard] = useState<IBoard | null>(null);
   const [activeCard, setActiveCard] = useState<ICard | null>(null);
-  const [cards, setCards] = useState<ICard[]>([]);
 
   const boardsId = useMemo(
     () => user_boards.map((board) => board.id),
@@ -72,6 +71,9 @@ export const KanbanBoards = () => {
     const { active, over } = e;
     if (!over) return;
 
+    const {
+      data: { current: { card: { board_id } } = {} },
+    } = active;
     const activeId = active.id;
     const overId = over.id;
 
@@ -83,12 +85,26 @@ export const KanbanBoards = () => {
     if (!isActiveACard) return;
 
     if (isActiveACard && isOverACard) {
-      setCards((cards) => {
-        const activeIndex = cards.findIndex((card) => card.id === activeId);
-        const overIndex = cards.findIndex((card) => card.id === overId);
+      const board_to_update = user_boards.find(
+        (board) => board.id === board_id
+      );
 
-        return arrayMove(cards, activeIndex, overIndex);
-      });
+      if (!board_to_update) return;
+
+      const activeIndex = board_to_update.cards.findIndex(
+        (card) => card.id === activeId
+      );
+      const overIndex = board_to_update.cards.findIndex(
+        (card) => card.id === overId
+      );
+
+      const sortable_cards = arrayMove(
+        board_to_update.cards,
+        activeIndex,
+        overIndex
+      );
+
+      updateCards(sortable_cards, board_id);
     }
   };
 
@@ -101,12 +117,7 @@ export const KanbanBoards = () => {
       <div className="flex gap-2 w-full overflow-auto">
         <SortableContext items={boardsId}>
           {user_boards.map((board) => (
-            <BoardContainer
-              board={board}
-              key={board.id}
-              cards={cards}
-              setCards={setCards}
-            />
+            <BoardContainer board={board} key={board.id} />
           ))}
         </SortableContext>
       </div>
@@ -114,13 +125,7 @@ export const KanbanBoards = () => {
       {typeof window !== "undefined" &&
         createPortal(
           <DragOverlay>
-            {activeBoard && (
-              <BoardContainer
-                board={activeBoard}
-                cards={cards}
-                setCards={setCards}
-              />
-            )}
+            {activeBoard && <BoardContainer board={activeBoard} />}
             {activeCard && <ItemCard card={activeCard} />}
           </DragOverlay>,
           document.body

@@ -13,26 +13,19 @@ import { Card } from "@/components/ui/card";
 
 type BoardContainerProps = {
   board: IBoard;
-  cards: ICard[];
-  setCards: React.Dispatch<React.SetStateAction<ICard[]>>;
 };
 
-export const BoardContainer = ({
-  board,
-  cards,
-  setCards,
-}: BoardContainerProps) => {
+export const BoardContainer = ({ board }: BoardContainerProps) => {
   const [selectedBoard, setSelectedBoard] = useState<number | string | null>(
     null
   );
   const cardsId = useMemo(
-    () => (cards && cards.length ? cards.map((card) => card.id) : []),
-    [cards]
+    () =>
+      board.cards && board.cards.length
+        ? board.cards.map((card) => card.id)
+        : [],
+    [board.cards]
   );
-
-  useEffect(() => {
-    setCards([...board.cards]);
-  }, [board.cards, setCards]);
 
   const {
     setNodeRef,
@@ -96,8 +89,8 @@ export const BoardContainer = ({
 
       <ul className="space-y-2">
         <SortableContext items={cardsId}>
-          {cards &&
-            cards
+          {board.cards &&
+            board.cards
               .map((card) => <ItemCard card={card} key={card.id} />)
               .reverse()}
         </SortableContext>

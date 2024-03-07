@@ -13,6 +13,7 @@ type BoardState = {
   removeBoard: (board: Omit<IBoard, "title">) => void;
   editBoard: (board: IBoard) => void;
   addCard: (card: ICard, id: string | number) => void;
+  updateCards: (cards: ICard[], id: string | number) => void;
 };
 
 export const BoardsSlice = (): BoardState => {
@@ -56,6 +57,19 @@ export const BoardsSlice = (): BoardState => {
     });
   }, []);
 
+  const updateCards = useCallback(
+    (cards: ICard[], id: string | number): void => {
+      setBoards((state) => {
+        const update_cards = state.map((board) =>
+          board.id === id ? { ...board, cards } : board
+        );
+
+        return update_cards;
+      });
+    },
+    []
+  );
+
   return {
     boards,
     setBoards,
@@ -63,5 +77,6 @@ export const BoardsSlice = (): BoardState => {
     removeBoard,
     editBoard,
     addCard,
+    updateCards,
   };
 };
