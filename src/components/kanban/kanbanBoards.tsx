@@ -8,6 +8,9 @@ import {
   DragOverlay,
   DragStartEvent,
   DragOverEvent,
+  useSensors,
+  useSensor,
+  PointerSensor,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
@@ -27,6 +30,14 @@ export const KanbanBoards = () => {
   const boardsId = useMemo(
     () => user_boards.map((board) => board.id),
     [user_boards]
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
   );
 
   const onDragStart = (e: DragStartEvent) => {
@@ -68,11 +79,12 @@ export const KanbanBoards = () => {
   };
 
   const onDragOver = (e: DragOverEvent) => {
+    let sortable_cards;
     const { active, over } = e;
     if (!over) return;
 
     const {
-      data: { current: { card: { board_id } } = {} },
+      data: { current: { card: { board_id } = "" } = {} },
     } = active;
     const activeId = active.id;
     const overId = over.id;
@@ -84,13 +96,10 @@ export const KanbanBoards = () => {
 
     if (!isActiveACard) return;
 
+    const board_to_update = user_boards.find((board) => board.id === board_id);
+    if (!board_to_update) return;
+
     if (isActiveACard && isOverACard) {
-      const board_to_update = user_boards.find(
-        (board) => board.id === board_id
-      );
-
-      if (!board_to_update) return;
-
       const activeIndex = board_to_update.cards.findIndex(
         (card) => card.id === activeId
       );
@@ -98,13 +107,33 @@ export const KanbanBoards = () => {
         (card) => card.id === overId
       );
 
-      const sortable_cards = arrayMove(
-        board_to_update.cards,
-        activeIndex,
-        overIndex
+      if (
+        board_to_update.cards[activeIndex]?.board_id !=
+        board_to_update.cards[overIndex]?.board_id
+      ) {
+        return updateCards(
+          arrayMove(board_to_update.cards, activeIndex, overIndex - 1),
+          board_id
+        );
+      }
+
+      return updateCards(
+        arrayMove(board_to_update.cards, activeIndex, overIndex),
+        board_id
+      );
+    }
+
+    const isOverABoard = over.data.current?.type === "Board";
+
+    if (isActiveACard && isOverABoard) {
+      const activeIndex = board_to_update.cards.findIndex(
+        (card) => card.id === activeId
       );
 
-      updateCards(sortable_cards, board_id);
+      return updateCards(
+        arrayMove(board_to_update.cards, activeIndex, activeIndex),
+        board_id
+      );
     }
   };
 
@@ -113,6 +142,7 @@ export const KanbanBoards = () => {
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
+      sensors={sensors}
     >
       <div className="flex gap-2 w-full overflow-auto">
         <SortableContext items={boardsId}>
