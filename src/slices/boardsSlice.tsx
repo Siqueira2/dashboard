@@ -9,8 +9,8 @@ import { v4 as uuid } from "uuid";
 type BoardState = {
   boards: IBoard[];
   setBoards: React.Dispatch<React.SetStateAction<IBoard[]>>;
-  createNewBoard: (board: Omit<IBoard, "id">) => void;
-  removeBoard: (board: Omit<IBoard, "title">) => void;
+  createNewBoard: (board: Omit<IBoard, "id" | "cards">) => void;
+  removeBoard: (board: Omit<IBoard, "title" | "cards">) => void;
   editBoard: (board: IBoard) => void;
   addCard: (card: ICard, id: string | number) => void;
   updateCards: (cards: ICard[], id: string | number) => void;
@@ -19,21 +19,27 @@ type BoardState = {
 export const BoardsSlice = (): BoardState => {
   const [boards, setBoards] = useState<IBoard[]>([]);
 
-  const createNewBoard = useCallback(({ title }: Omit<IBoard, "id">): void => {
-    const id = uuid();
+  const createNewBoard = useCallback(
+    ({ title }: Omit<IBoard, "id" | "cards">): void => {
+      const id = uuid();
 
-    const newBoard = {
-      id,
-      title,
-      cards: [],
-    };
+      const newBoard = {
+        id,
+        title,
+        cards: [],
+      };
 
-    setBoards((state) => [...state, newBoard]);
-  }, []);
+      setBoards((state) => [...state, newBoard]);
+    },
+    []
+  );
 
-  const removeBoard = useCallback(({ id }: Omit<IBoard, "title">): void => {
-    setBoards((state) => state.filter((board) => board.id !== id));
-  }, []);
+  const removeBoard = useCallback(
+    ({ id }: Omit<IBoard, "title" | "cards">): void => {
+      setBoards((state) => state.filter((board) => board.id !== id));
+    },
+    []
+  );
 
   const editBoard = useCallback(({ id, title }: IBoard): void => {
     setBoards((state) => {

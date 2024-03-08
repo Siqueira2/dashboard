@@ -79,7 +79,6 @@ export const KanbanBoards = () => {
   };
 
   const onDragOver = (e: DragOverEvent) => {
-    let sortable_cards;
     const { active, over } = e;
     if (!over) return;
 
@@ -111,13 +110,13 @@ export const KanbanBoards = () => {
         board_to_update.cards[activeIndex]?.board_id !=
         board_to_update.cards[overIndex]?.board_id
       ) {
-        return updateCards(
+        updateCards(
           arrayMove(board_to_update.cards, activeIndex, overIndex - 1),
           board_id
         );
       }
 
-      return updateCards(
+      updateCards(
         arrayMove(board_to_update.cards, activeIndex, overIndex),
         board_id
       );
