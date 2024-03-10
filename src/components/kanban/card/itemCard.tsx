@@ -62,7 +62,7 @@ export const ItemCard = ({ card }: ItemCardProps) => {
 
           <CollapsibleContent className="max-w-full">
             <ScrollArea>
-              <p className="text-sm text-wrap break-words max-h-[100px]">
+              <p className="text-sm text-wrap break-words max-h-[160px]">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Inventore voluptate fuga quos incidunt eveniet aspernatur ullam
                 earum laborum quae totam ducimus, explicabo perspiciatis maxime

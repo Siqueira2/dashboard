@@ -28,7 +28,9 @@ export default function RootLayout({
           <Theme>
             <Navbar />
 
-            <main className="px-10 py-10 ml-16 h-full">{children}</main>
+            <main className="pl-24 pr-10 py-10 h-full max-w-full overflow-x-hidden">
+              {children}
+            </main>
           </Theme>
         </GlobalProvider>
       </body>
