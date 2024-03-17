@@ -1,7 +1,7 @@
 import { ICard } from "@/interface/card";
 
 export interface IBoard {
-  id: string | number;
+  id: string;
   title: string;
   cards: ICard[];
 }

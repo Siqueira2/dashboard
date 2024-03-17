@@ -1,4 +1,4 @@
-"use client";
+import { useQuery } from "@tanstack/react-query";
 
 import { IBoard } from "@/interface/board";
 import { ICard } from "@/interface/card";
@@ -6,9 +6,10 @@ import { ICard } from "@/interface/card";
 import { useState, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 
+import fetchBoards from "@/api/kanban/board/fetchBoards";
+
 type BoardState = {
   boards: IBoard[];
-  setBoards: React.Dispatch<React.SetStateAction<IBoard[]>>;
   createNewBoard: (board: Omit<IBoard, "id" | "cards">) => void;
   removeBoard: (board: Omit<IBoard, "title" | "cards">) => void;
   editBoard: (board: IBoard) => void;
@@ -17,7 +18,10 @@ type BoardState = {
 };
 
 export const BoardsSlice = (): BoardState => {
-  const [boards, setBoards] = useState<IBoard[]>([]);
+  const query = useQuery({
+    queryKey: ["boards"],
+    queryFn: fetchBoards,
+  });
 
   const createNewBoard = useCallback(
     ({ title }: Omit<IBoard, "id" | "cards">): void => {
@@ -28,57 +32,27 @@ export const BoardsSlice = (): BoardState => {
         title,
         cards: [],
       };
-
-      setBoards((state) => [...state, newBoard]);
     },
     []
   );
 
   const removeBoard = useCallback(
-    ({ id }: Omit<IBoard, "title" | "cards">): void => {
-      setBoards((state) => state.filter((board) => board.id !== id));
-    },
+    ({ id }: Omit<IBoard, "title" | "cards">): void => {},
     []
   );
 
-  const editBoard = useCallback(({ id, title }: IBoard): void => {
-    setBoards((state) => {
-      const updateBoards = state.map((board) =>
-        board.id === id ? { ...board, title } : board
-      );
+  const editBoard = useCallback(({ id, title }: IBoard): void => {}, []);
 
-      return updateBoards;
-    });
-  }, []);
-
-  const addCard = useCallback((card: ICard, id: string | number): void => {
-    setBoards((state) => {
-      const new_card = state.map((board) =>
-        board.id === id
-          ? { ...board, cards: board.cards ? [...board.cards, card] : [card] }
-          : board
-      );
-
-      return new_card;
-    });
-  }, []);
+  const addCard = useCallback((card: ICard, id: string | number): void => {},
+  []);
 
   const updateCards = useCallback(
-    (cards: ICard[], id: string | number): void => {
-      setBoards((state) => {
-        const update_cards = state.map((board) =>
-          board.id === id ? { ...board, cards } : board
-        );
-
-        return update_cards;
-      });
-    },
+    (cards: ICard[], id: string | number): void => {},
     []
   );
 
   return {
-    boards,
-    setBoards,
+    boards: query.data?.data || [],
     createNewBoard,
     removeBoard,
     editBoard,

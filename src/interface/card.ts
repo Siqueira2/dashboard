@@ -1,5 +1,5 @@
 export interface ICard {
-  id: string | number;
+  id: string;
   title: string;
-  board_id: string | number;
+  board_id: string;
 }
