@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
-import useBoards from "@/hooks/useBoards";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 
 export const CreateBoard = () => {
-  const { createNewBoard } = useBoards();
   const [title, setTitle] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
@@ -29,7 +26,6 @@ export const CreateBoard = () => {
       return;
     }
 
-    createNewBoard({ title });
     setTitle("");
     setOpen(false);
   };

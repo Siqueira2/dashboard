@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Theme from "@/context/themeContext";
-import { GlobalProvider } from "@/context/globalContext";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import Navbar from "@/components/navbar";
@@ -21,15 +20,13 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <QueryClientProvider client={new QueryClient()}>
-          <GlobalProvider>
-            <Theme>
-              <Navbar />
+          <Theme>
+            <Navbar />
 
-              <main className="pl-24 pr-10 py-10 h-full max-w-full overflow-x-hidden">
-                {children}
-              </main>
-            </Theme>
-          </GlobalProvider>
+            <main className="pl-24 pr-10 py-10 h-full max-w-full overflow-x-hidden">
+              {children}
+            </main>
+          </Theme>
         </QueryClientProvider>
       </body>
     </html>
